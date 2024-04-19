@@ -1,9 +1,11 @@
-package service.news;
+package service.news.recommendation;
+
+import service.news.recommendation.RecommendationStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TechnologyRecommendationStrategy implements RecommendationStrategy{
+public class TechnologyRecommendationStrategy implements RecommendationStrategy {
 
     @Override
     public List<String> recommend(String userPreferences) {

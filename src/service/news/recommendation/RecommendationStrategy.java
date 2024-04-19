@@ -1,4 +1,4 @@
-package service.news;
+package service.news.recommendation;
 
 import java.util.List;
 

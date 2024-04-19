@@ -1,5 +1,9 @@
 package service.news;
 
+import service.news.recommendation.RecommendationStrategy;
+import service.news.recommendation.SportsRecommendationStrategy;
+import service.news.recommendation.TechnologyRecommendationStrategy;
+
 public class ConcreteRecommendationStrategyFactory implements RecommendationStrategyFactory{
     @Override
     public RecommendationStrategy createRecommendationStrategy(String type) {
