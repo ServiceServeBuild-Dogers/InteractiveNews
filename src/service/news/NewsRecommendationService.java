@@ -24,6 +24,7 @@ public class NewsRecommendationService implements Service {
         this.strategy = recommendationStrategyFactory.createRecommendationStrategy("Technology");
     }
 
+    // 싱글톤 사용 위함 - 한 번에 하나의 스레드에서만 호출
     public static synchronized NewsRecommendationService getInstance() {
         if (instance == null) {
             instance = new NewsRecommendationService();
