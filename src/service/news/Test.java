@@ -11,6 +11,8 @@ public class Test {
         // Observer 1 subscribes and requests recommendations
         service.subscribe(observer1);
         service.recommendNews("technology", observer1);
+        service.setStrategy("Sports");
+        service.recommendNews("sports",observer1);
 
         // Observer 2 does not subscribe but attempts to request recommendations
         service.recommendNews("technology", observer2);

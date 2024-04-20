@@ -14,10 +14,14 @@ public class NewsRecommendationService implements Service {
     private static NewsRecommendationService instance;
     private RecommendationStrategy strategy;
     private Map<SubscribeObserver, Boolean> observers = new HashMap<>();
+    private RecommendationStrategyFactory recommendationStrategyFactory;
 
     private NewsRecommendationService() {
-        // 초기 추천 전략 설정
-        this.strategy = new TechnologyRecommendationStrategy(); // 기본 전략
+
+        this.recommendationStrategyFactory = new ConcreteRecommendationStrategyFactory();
+
+        // 초기 추천 전략 설정 - 기본 전략은 Tech
+        this.strategy = recommendationStrategyFactory.createRecommendationStrategy("Technology");
     }
 
     public static synchronized NewsRecommendationService getInstance() {
@@ -27,9 +31,11 @@ public class NewsRecommendationService implements Service {
         return instance;
     }
 
-    public void setStrategy(RecommendationStrategy strategy) {
-        this.strategy = strategy;
+    // 추천 전략 바꾸기
+    public void setStrategy(String type) {
+        this.strategy = recommendationStrategyFactory.createRecommendationStrategy(type);
     }
+
 
     // 구독자만 뉴스 추천 기능을 이용할 수 있음
     public void recommendNews(String userPreferences, SubscribeObserver observer) {
