@@ -1,6 +1,6 @@
 package platform;
 
-import service.auth.AuthenticationService;
+import service.auth.service.AuthenticationService;
 import service.news.NewsRecommendationService;
 import service.search.SearchService;
 
