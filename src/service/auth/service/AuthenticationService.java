@@ -1,5 +1,5 @@
 package service.auth.service;
-import service.auth.util.JwtUtil;
+import service.auth.jwt.util.JwtUtil;
 
 
 public class AuthenticationService {

@@ -1,6 +1,5 @@
-package service.auth; // Update the package declaration
+package service.auth.jwt.util; // Update the package declaration
 
-import service.auth.util.JwtUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class JwtService {

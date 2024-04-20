@@ -1,4 +1,4 @@
-package service.auth.util;
+package service.auth.jwt.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
