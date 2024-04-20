@@ -2,10 +2,6 @@ package service.news;
 
 public class Test {
 
-//    public static void test(){
-//        String str = "Power overwhelming!";
-//        System.out.printf("%8.4s\n",str);
-//    }
 
     public static void main(String args[]){
 
