@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.function.Function;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUtil {
 
