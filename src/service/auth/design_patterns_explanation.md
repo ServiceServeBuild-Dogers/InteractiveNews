@@ -17,30 +17,7 @@ public static AuthenticationService getInstance() {
     return instance;
 }
 ```
-###JwtService.java
-적용된 패턴: 싱글턴 패턴
-설명: JwtService 클래스는 시스템 전반에서 JWT 토큰 생성 및 검증 로직을 담당합니다. 싱글턴 패턴을 적용하면 애플리케이션 내에서 이 서비스의 인스턴스가 단 하나만 존재하게 보장됩니다. 이는 리소스를 효율적으로 사용하고, 모든 상태 정보가 중앙에서 관리될 수 있도록 합니다.
 
-```java
-public class JwtService {
-    private static JwtService instance;
-
-    private JwtService() {}
-
-    public static JwtService getInstance() {
-        if (instance == null) {
-            synchronized (JwtService.class) {
-                if (instance == null) {
-                    instance = new JwtService();
-                }
-            }
-        }
-        return instance;
-    }
-
-    // 토큰 생성 및 검증 메소드 등
-}
-```
 ###AuthDecorator.java
 적용된 패턴: 데코레이터 패턴
 설명: AuthDecorator 클래스는 Authentication 인터페이스를 구현하는 객체에 추가적인 기능을 동적으로 부여합니다. 이 패턴은 기존 코드를 수정하지 않고도 객체의 행동을 확장할 수 있게 해줍니다. 예를 들어, 로그 작성, 접근 제한, 요청 사전 처리 등이 이에 해당합니다.
