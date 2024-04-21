@@ -1,8 +1,4 @@
-package service.auth.service;
-import service.auth.Authentication;
-import service.auth.AuthFactory;
-import service.auth.AuthStrategy;
-import service.auth.ConcreteAuthFactory;
+package service.auth;
 
 public class AuthenticationService implements Authentication {
     private static AuthenticationService instance;

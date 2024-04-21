@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 //Platform 에서 호출하는 싱글턴 객체 클래스
-public class NewsRecommendationService implements Service {
+public class NewsRecommendationService {
 
     private static NewsRecommendationService instance;
     private RecommendationStrategy strategy;
