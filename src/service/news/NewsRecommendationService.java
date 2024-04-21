@@ -1,8 +1,6 @@
 package service.news;
 
-import service.Service;
 import service.news.recommendation.RecommendationStrategy;
-import service.news.recommendation.TechnologyRecommendationStrategy;
 
 import java.util.HashMap;
 import java.util.List;
