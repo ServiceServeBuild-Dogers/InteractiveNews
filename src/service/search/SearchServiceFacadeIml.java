@@ -12,6 +12,8 @@ public class SearchServiceFacadeImpl implements SearchServiceFacade {
         List<String> results = new ArrayList<>();
         results.addAll(elasticsearchService.search(query));
         results.addAll(mongoDBService.search(query));
+        // NLP 라이브러리를 이용한 텍스트 분석 결과를 합침
+        results.addAll(nlpLibrary.analyzeText(query)); 
         return results;
     }
 
