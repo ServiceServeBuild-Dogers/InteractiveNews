@@ -1,69 +1,36 @@
-### AuthenticationService
-이 클래스는 사용자 인증을 담당합니다. 주요 기능은 사용자의 자격 증명을 확인하고 올바른 경우 JWT 토큰을 생성하는 것입니다. 여기에는 사용자의 이름과 비밀번호를 검증하는 로직이 포함되어 있으며, 검증이 성공하면 JwtUtil을 사용해 JWT 토큰을 생성합니다.
+## 인증 서비스: AuthenticationService 클래스 설명
 
-싱글턴 패턴 적용: AuthenticationService는 싱글턴 디자인 패턴을 적용하여 애플리케이션 내에 단 하나의 인스턴스만 존재하도록 보장합니다. 이는 모든 인증 요청이 동일한 인증 서비스 인스턴스를 통해 처리되어야 함을 의미합니다. 이 방식은 인스턴스의 생성 비용이 크거나, 일관된 상태 관리가 필요할 때 유용합니다.
+- AuthenticationService는 인증 서비스를 위한 싱글턴 객체로, 플랫폼에서 호출되어 다양한 인증 전략을 통해 사용자 인증을 관리합니다. 이 서비스는 사용자의 인증 요청을 처리하고, 토큰 기반 검증을 포함할 수 있습니다.
+### 주요 기능 및 메서드:
+1. Singleton Pattern Implementation:
+    - getInstance(): 이 메서드는 클래스의 인스턴스를 반환합니다. 싱글턴 패턴을 사용하여 클래스의 인스턴스가 하나만 생성되도록 보장합니다.
+2. Factory Pattern:
+    - createAuthStrategy(String type): 인증 전략을 동적으로 생성합니다. 이 메서드는 AuthFactory 인터페이스를 통해 다양한 인증 전략(Default, OAuth)을 생성할 수 있도록 합니다.
+3. Strategy Pattern:
+    - 인증 전략 (AuthStrategy): 다양한 인증 방식을 추상화하고, 구체적인 인증 방식은 별도의 클래스(DefaultAuthStrategy, OAuthStrategy)에서 구현합니다. 이를 통해 사용자 인증 로직을 유연하게 변경할 수 있습니다.
+### 구성 요소:
+- AuthFactory: 인증 전략 객체를 생성하는 팩토리 인터페이스입니다. 이를 통해 필요에 따라 다양한 인증 전략 객체를 생성할 수 있습니다.
+- AuthStrategy: 인증을 수행하는 전략을 정의하는 인터페이스입니다. 다양한 전략을 구현하여, 사용자의 인증 요청을 처리합니다.
+- ConcreteAuthFactory: AuthFactory 인터페이스의 구현체로, 실제로 인증 전략을 생성하는 클래스입니다.
+- DefaultAuthStrategy, OAuthStrategy: 각각 기본 인증과 OAuth 인증을 구현한 전략 클래스입니다.
+### 사용 예시:
 ```java
+public static void main(String[] args) {
+    // 인증 서비스 인스턴스 획득
+    AuthenticationService authService = AuthenticationService.getInstance();
 
-private static AuthenticationService instance;
+    // 기본 인증 전략 설정
+    authService.createAuthStrategy("Default");
 
-public static AuthenticationService getInstance() {
-    if (instance == null) {
-        synchronized (AuthenticationService.class) {
-            if (instance == null) {
-                instance = new AuthenticationService();
-            }
-        }
-    }
-    return instance;
-}
-```
+    // 사용자 인증 시도
+    boolean isAuthenticated = authService.authenticate("username", "password");
+    System.out.println("Authentication status: " + isAuthenticated);
 
-###AuthDecorator.java
-적용된 패턴: 데코레이터 패턴
-설명: AuthDecorator 클래스는 Authentication 인터페이스를 구현하는 객체에 추가적인 기능을 동적으로 부여합니다. 이 패턴은 기존 코드를 수정하지 않고도 객체의 행동을 확장할 수 있게 해줍니다. 예를 들어, 로그 작성, 접근 제한, 요청 사전 처리 등이 이에 해당합니다.
+    // OAuth 인증 전략으로 변경
+    authService.createAuthStrategy("OAuth");
 
-```java
-public class AuthDecorator implements Authentication {
-    private Authentication wrappedAuth;
-
-    public AuthDecorator(Authentication wrappedAuth) {
-        this.wrappedAuth = wrappedAuth;
-    }
-
-    @Override
-    public boolean authenticate(String username, String password) {
-        // 추가 기능 구현
-        return wrappedAuth.authenticate(username, password);
-    }
-}
-```
-###AuthFactory.java
-적용된 패턴: 팩토리 패턴
-설명: AuthFactory는 AuthenticationService 객체의 생성을 캡슐화하고, 인스턴스 생성 로직을 클라이언트로부터 숨깁니다. 이 패턴은 객체 생성에 관한 유연성을 제공하며, 필요에 따라 다른 타입의 객체를 생성할 수 있는 가능성을 열어줍니다.
-
-```java
-public class AuthFactory {
-    public static AuthenticationService getAuthService() {
-        return AuthenticationService.getInstance();
-    }
-}
-```
-###AuthProxy.java
-적용된 패턴: 프록시 패턴
-설명: AuthProxy는 AuthenticationService에 대한 접근을 제어하는 프록시 역할을 합니다. 이는 보안 강화, 지연 로딩, 접근 제한 등 다양한 상황에서 유용합니다.
-
-```java
-public class AuthProxy implements Authentication {
-    private AuthenticationService authService;
-
-    public AuthProxy(AuthenticationService authService) {
-        this.authService = authService;
-    }
-
-    @Override
-    public boolean authenticate(String username, String password) {
-        // 접근 제어나 사전 처리 로직
-        return authService.authenticate(username, password);
-    }
+    // OAuth를 사용한 사용자 인증 시도
+    isAuthenticated = authService.authenticate("username", "password");
+    System.out.println("Authentication status with OAuth: " + isAuthenticated);
 }
 ```
