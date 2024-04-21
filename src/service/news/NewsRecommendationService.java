@@ -19,7 +19,7 @@ public class NewsRecommendationService {
         this.recommendationStrategyFactory = new ConcreteRecommendationStrategyFactory();
 
         // 초기 추천 전략 설정 - 기본 전략은 Tech
-        this.strategy = recommendationStrategyFactory.createRecommendationStrategy("Technology");
+        this.strategy = recommendationStrategyFactory.createRecommendationStrategy("ContentBased");
     }
 
     // 싱글톤 사용 위함 - 한 번에 하나의 스레드에서만 호출

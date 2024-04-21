@@ -24,6 +24,8 @@ public class Main {
         platform.subscribeToNews(client1.getObserver());
         // 클라이언트 1 뉴스 추천
         platform.recommendNews(client1.getUserPreferences(), client1.getObserver());
+        // 클라이언트 1 뉴스 추천 전략 변경
+        platform.changeRecommendationStrategy("UserBased");
 
         // 클라이언트 2 로그인 및 토큰 검증
         if (platform.login(client2.getUsername(), client2.getPassword())) {
