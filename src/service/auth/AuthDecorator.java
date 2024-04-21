@@ -1,19 +1,14 @@
 package service.auth;
 
 public class AuthDecorator implements Authentication {
-    private Authentication wrappedAuth;
+    protected Authentication wrappedAuthentication;
 
-    public AuthDecorator(Authentication wrappedAuth) {
-        this.wrappedAuth = wrappedAuth;
+    public AuthDecorator(AuthStrategy authStrategy) {
+        this.wrappedAuthentication = new AuthStrategyAdapter(authStrategy); // AuthStrategy를 Authentication으로 변환
     }
 
     @Override
     public boolean authenticate(String username, String password) {
-        boolean result = wrappedAuth.authenticate(username, password);
-        if (!result) {
-            System.out.println("First attempt failed for: " + username + ". Retrying...");
-            result = wrappedAuth.authenticate(username, password);
-        }
-        return result;
+        return wrappedAuthentication.authenticate(username, password);
     }
 }
