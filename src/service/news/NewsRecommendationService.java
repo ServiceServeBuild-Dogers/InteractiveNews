@@ -1,15 +1,13 @@
 package service.news;
 
-import service.Service;
 import service.news.recommendation.RecommendationStrategy;
-import service.news.recommendation.TechnologyRecommendationStrategy;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 //Platform 에서 호출하는 싱글턴 객체 클래스
-public class NewsRecommendationService implements Service {
+public class NewsRecommendationService {
 
     private static NewsRecommendationService instance;
     private RecommendationStrategy strategy;
@@ -21,7 +19,7 @@ public class NewsRecommendationService implements Service {
         this.recommendationStrategyFactory = new ConcreteRecommendationStrategyFactory();
 
         // 초기 추천 전략 설정 - 기본 전략은 Tech
-        this.strategy = recommendationStrategyFactory.createRecommendationStrategy("Technology");
+        this.strategy = recommendationStrategyFactory.createRecommendationStrategy("ContentBased");
     }
 
     // 싱글톤 사용 위함 - 한 번에 하나의 스레드에서만 호출
