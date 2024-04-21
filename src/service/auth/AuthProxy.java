@@ -1,7 +1,5 @@
 package service.auth;
 
-import service.auth.service.AuthenticationService;
-
 public class AuthProxy implements Authentication {
     private AuthenticationService authService;
 
