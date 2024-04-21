@@ -50,3 +50,62 @@
 
     }
 ```
+
+## 뉴스 검색 서비스
+사용자로부터 키워드를 입력받거나 카테고리를 선택하여 검색할 수 있는 서비스입니다. 
+
+### 주요 기능 및 메서드 :
+
+1. **SearchServiceFacade.java**:
+   - 이 인터페이스는 검색 서비스에 대한 Facade 역할을 정의합니다.
+   - `search(String query)` 메서드는 키워드를 입력받아 검색을 수행합니다.
+   - `searchByCategory(String category)` 메서드는 카테고리를 입력받아 해당 카테고리로 검색을 수행합니다.
+
+2. **ElasticsearchService.java**:
+   - 이 클래스는 Elasticsearch에서의 검색 기능을 구현합니다.
+   - `search(String query)` 메서드는 주어진 키워드를 사용하여 Elasticsearch에서 검색을 수행합니다.
+   - `searchByCategory(String category)` 메서드는 주어진 카테고리를 사용하여 Elasticsearch에서 카테고리별 검색을 수행합니다.
+
+3. **MongoDBService.java**:
+   - 이 클래스는 MongoDB에서의 검색 기능을 구현합니다.
+   - `search(String query)` 메서드는 주어진 키워드를 사용하여 MongoDB에서 검색을 수행합니다.
+   - `searchByCategory(String category)` 메서드는 주어진 카테고리를 사용하여 MongoDB에서 카테고리별 검색을 수행합니다.
+
+4. **NLPLibrary.java**:
+   - 이 클래스는 텍스트 분석 및 처리를 담당하는 NLP 라이브러리를 모사합니다.
+   - `analyzeText(String text)` 메서드는 주어진 텍스트를 분석하여 키워드 및 카테고리를 추출합니다.
+
+5. **SearchServiceFacadeImpl.java**:
+   - 이 클래스는 SearchServiceFacade 인터페이스를 구현하여 검색 서비스의 Facade 역할을 수행합니다.
+   - ElasticsearchService와 MongoDBService를 내부적으로 사용하여 검색 기능을 구현합니다.
+   - `search(String query)` 메서드는 키워드를 입력받아 Elasticsearch와 MongoDB에서 검색을 수행하고, 결과를 합칩니다.
+   - `searchByCategory(String category)` 메서드는 카테고리를 입력받아 Elasticsearch와 MongoDB에서 카테고리별 검색을 수행하고, 결과를 합칩니다.
+
+### 사용예시:
+```java
+    public static void main(String[] args) {
+        // 검색 서비스 Facade 생성
+        SearchServiceFacade searchService = new SearchServiceFacadeImpl();
+
+        // 키워드를 이용한 검색
+        System.out.println("키워드 검색 결과:");
+        List<String> keywordResults = searchService.search("키워드");
+        printResults(keywordResults);
+
+        // 카테고리를 선택하여 검색
+        System.out.println("카테고리별 검색 결과:");
+        List<String> categoryResults = searchService.searchByCategory("카테고리");
+        printResults(categoryResults);
+    }
+
+    // 결과를 출력
+    private static void printResults(List<String> results) {
+        if(results.isEmpty()) {
+            System.out.println("검색 결과가 존재하지 않습니다.");
+        } else {
+            for(String result : results) {
+                System.out.println(result);
+            }
+        }
+    }
+```

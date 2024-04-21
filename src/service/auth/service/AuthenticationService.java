@@ -6,12 +6,18 @@ public class AuthenticationService implements Authentication {
     private static AuthenticationService instance;
     private AuthStrategy authStrategy;
     private AuthFactory authFactory;
-
+    
     private AuthenticationService() {
         this.authFactory = new ConcreteAuthFactory(); // 구체적인 팩토리 클래스
         this.authStrategy = authFactory.createAuthStrategy("Default");
     }
-
+    public static AuthenticationService getInstance() {
+        if (instance == null) {
+            instance = new AuthenticationService();
+        }
+        return instance;
+    }
+    
     @Override
     public boolean authenticate(String username, String password) {
         return authStrategy.authenticate(username, password);
@@ -65,3 +71,4 @@ class OAuthStrategy implements AuthStrategy {
         return true;
     }
 }
+
