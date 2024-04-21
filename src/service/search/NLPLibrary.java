@@ -1,3 +1,6 @@
+package service.search;
+
+import java.util.Arrays;
 import java.util.List;
 
 // NLP 라이브러리 사용하여 텍스트 분석 및 처리를 담당하는 클래스

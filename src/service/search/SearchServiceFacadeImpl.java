@@ -1,3 +1,5 @@
+package service.search;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,6 +7,8 @@ import java.util.List;
 public class SearchServiceFacadeImpl implements SearchServiceFacade {
     private ElasticsearchService elasticsearchService = new ElasticsearchService();
     private MongoDBService mongoDBService = new MongoDBService();
+
+    private NLPLibrary nlpLibrary = new NLPLibrary();
 
     @Override
     public List<String> search(String query) {

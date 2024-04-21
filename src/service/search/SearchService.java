@@ -2,6 +2,8 @@ package service.search;
 
 import service.Service;
 
+import java.util.List;
+
 // Platform에서 호출하는 싱글턴 객체 클래스
 public class SearchService implements Service {
     private static SearchService instance;
