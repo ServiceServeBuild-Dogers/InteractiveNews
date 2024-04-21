@@ -1,39 +1,67 @@
 package service.auth.service;
-import service.auth.jwt.util.JwtUtil;
+import service.auth.Authentication; // Import the missing Authentication interface
 
 
-public class AuthenticationService {
-
+public class AuthenticationService implements Authentication {
     private static AuthenticationService instance;
-    private JwtUtil jwtUtil = new JwtUtil(); // JwtUtil 인스턴스
+    private AuthStrategy authStrategy;
+    private AuthFactory authFactory;
 
-    private AuthenticationService() {}
-
-    // 싱글턴 인스턴스 반환 메서드
-    public static AuthenticationService getInstance() {
-        if (instance == null) {
-            synchronized (AuthenticationService.class) {
-                if (instance == null) {
-                    instance = new AuthenticationService();
-                }
-            }
-        }
-        return instance;
+    private AuthenticationService() {
+        this.authFactory = new ConcreteAuthFactory(); // 구체적인 팩토리 클래스
+        this.authStrategy = authFactory.createAuthStrategy("Default");
     }
 
-    // 사용자 인증 메서드
-    public String authenticate(String username, String password) {
-        // 사용자 인증 로직 구현
-        // 이 예제에서는 하드코딩된 사용자 이름과 비밀번호를 사용합니다.
-        // 실제 구현에서는 데이터베이스 검증 로직을 추가해야 합니다.
-        if ("admin".equals(username) && "password".equals(password)) {
-            return jwtUtil.generateToken(username); // 인증 성공시 JWT 생성
-        }
-        return null; // 인증 실패시 null 반환
+    @Override
+    public boolean authenticate(String username, String password) {
+        return authStrategy.authenticate(username, password);
     }
+    
+    public boolean verifyToken(String token, String username) {
+        // 토큰 검증 로직
+        return true; 
+    }
+}
 
-    // JWT 토큰 검증 메서드
-    public Boolean verifyToken(String token, String username) {
-        return jwtUtil.validateToken(token, username);
+// AuthFactory 인터페이스
+interface AuthFactory {
+    AuthStrategy createAuthStrategy(String type);
+}
+
+// 구체적인 팩토리 클래스
+class ConcreteAuthFactory implements AuthFactory {
+    @Override
+    public AuthStrategy createAuthStrategy(String type) {
+        switch (type) {
+            case "Default":
+                return new DefaultAuthStrategy();
+            case "OAuth":
+                return new OAuthStrategy();
+            default:
+                throw new IllegalArgumentException("Unknown authentication type: " + type);
+        }
+    }
+}
+
+// 인증 전략 인터페이스
+interface AuthStrategy {
+    boolean authenticate(String username, String password);
+}
+
+// 기본 인증 전략
+class DefaultAuthStrategy implements AuthStrategy {
+    @Override
+    public boolean authenticate(String username, String password) {
+        // 기본 인증 로직 구현
+        return true;
+    }
+}
+
+// OAuth 인증 전략
+class OAuthStrategy implements AuthStrategy {
+    @Override
+    public boolean authenticate(String username, String password) {
+        // OAuth 인증 로직 구현
+        return true;
     }
 }

@@ -7,7 +7,7 @@ public class UserController {
     private AuthenticationService authService = AuthenticationService.getInstance();
 
     // 사용자 인증을 수행하고 JWT를 반환하는 메서드
-    public String loginUser(String username, String password) {
+    public boolean loginUser(String username, String password) {
         return authService.authenticate(username, password);
     }
 
@@ -22,4 +22,7 @@ public class UserController {
         // 이 예제에서는 간단한 문자열을 반환합니다.
         return "User Info for " + username;
     }
+
+
+
 }
